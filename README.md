@@ -1,5 +1,17 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+# Modern React App with Dock Navigation
+
+This project demonstrates a modern React application built with Next.js, Tailwind CSS, and shadcn/ui components. The main feature is a floating dock navigation component that provides a sleek, macOS-inspired navigation experience.
+
+## Features
+
+- **Floating Dock Navigation**: A customizable dock component that floats at the bottom of the page
+- **Theme Switching**: Support for light, dark, and system themes
+- **Responsive Design**: Works on all screen sizes
+- **Modern UI Components**: Built with shadcn/ui and Tailwind CSS
+- **Animations**: Smooth animations using Framer Motion
+
 ## Getting Started
 
 First, run the development server:
@@ -16,9 +28,12 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `src/components/ui/dock-two.tsx`: The core dock component with animations
+- `src/components/DockNavigation.tsx`: Navigation wrapper for the dock
+- `src/context/ThemeContext.tsx`: Theme management
+- `src/app/*`: Page components for different sections
 
 ## Learn More
 
