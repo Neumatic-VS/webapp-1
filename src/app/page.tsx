@@ -1,77 +1,52 @@
-import Image from "next/image";
+"use client";
+
 import { ThemeToggle } from "@/components/ThemeToggle";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { DockNavigation } from "@/components/DockNavigation";
+import { ProjectStatusCard } from "@/components/ui/expandable-card";
+import { useEvents } from "@/hooks/useEvents";
 
 export default function Home() {
+  const { events, loading, error } = useEvents();
+
   return (
     <div className="grid grid-rows-[auto_1fr_auto] min-h-screen p-8 gap-8 relative">
       <header className="flex justify-between items-center">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={120}
-          height={30}
-          priority
-        />
+        <h1 className="text-2xl font-bold">Dashboard</h1>
         <ThemeToggle />
       </header>
       
-      <main className="flex flex-col items-center justify-center gap-8">
-        <h1 className="text-4xl font-bold text-center">
-          Welcome to Your Modern React App
-        </h1>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl">
-          <Card>
-            <CardHeader>
-              <CardTitle>Next.js</CardTitle>
-              <CardDescription>The React Framework for the Web</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p>Next.js enables you to create full-stack web applications by extending the latest React features.</p>
-            </CardContent>
-            <CardFooter>
-              <Button variant="outline" size="sm" asChild>
-                <a href="https://nextjs.org/docs" target="_blank" rel="noopener noreferrer">Documentation</a>
-              </Button>
-            </CardFooter>
-          </Card>
-          
-          <Card>
-            <CardHeader>
-              <CardTitle>Tailwind CSS</CardTitle>
-              <CardDescription>A utility-first CSS framework</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p>Rapidly build modern websites without ever leaving your HTML.</p>
-            </CardContent>
-            <CardFooter>
-              <Button variant="outline" size="sm" asChild>
-                <a href="https://tailwindcss.com/docs" target="_blank" rel="noopener noreferrer">Documentation</a>
-              </Button>
-            </CardFooter>
-          </Card>
-          
-          <Card>
-            <CardHeader>
-              <CardTitle>shadcn/ui</CardTitle>
-              <CardDescription>UI components built with Radix UI and Tailwind CSS</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p>Beautifully designed components that you can copy and paste into your apps.</p>
-            </CardContent>
-            <CardFooter>
-              <Button variant="outline" size="sm" asChild>
-                <a href="https://ui.shadcn.com" target="_blank" rel="noopener noreferrer">Documentation</a>
-              </Button>
-            </CardFooter>
-          </Card>
-        </div>
-        
-        <Button className="mt-8">Get Started</Button>
+      <main className="flex flex-col items-start justify-start gap-8 overflow-auto">
+        {loading ? (
+          <div className="w-full flex justify-center items-center py-12">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+          </div>
+        ) : error ? (
+          <div className="w-full text-center py-8 text-red-500">
+            <p className="text-lg">{error}</p>
+            <button 
+              onClick={() => window.location.reload()} 
+              className="mt-4 px-4 py-2 bg-primary text-white rounded-md hover:bg-primary/90 transition-colors"
+            >
+              Try Again
+            </button>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
+            {events.map(event => (
+              <ProjectStatusCard
+                key={event.id}
+                title={event.name}
+                progress={Math.round((event.confirmations / event.capacity) * 100)}
+                dueDate={event.dueDate}
+                venue={event.venue}
+                invitationsSent={event.invitationsSent}
+                confirmations={event.confirmations}
+                capacity={event.capacity}
+                openIssues={event.openIssues || 0}
+              />
+            ))}
+          </div>
+        )}
       </main>
       
       {/* Dock Navigation - positioned absolutely at the bottom center */}
@@ -82,7 +57,7 @@ export default function Home() {
       </div>
       
       <footer className="text-center text-sm text-muted-foreground">
-        <p>Built with Next.js, Tailwind CSS, and shadcn/ui</p>
+        <p> 2025 Dashboard de Eventos</p>
       </footer>
     </div>
   );
