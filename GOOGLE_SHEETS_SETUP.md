@@ -28,16 +28,22 @@ If you haven't already:
 
 ### 3. Configure the Application
 
-1. Place your Google API credentials JSON file at:
+1. Create a directory for your credentials:
+   ```
+   mkdir -p src/services/credentials
+   ```
+
+2. Copy your Google API credentials JSON file to:
    ```
    src/services/credentials/google-credentials.json
    ```
+   
+   > **Note:** For security reasons, this file is ignored by Git. See `google-credentials.example.json` for the expected format.
 
-2. Update the `SPREADSHEET_ID` in `src/services/googleSheetService.ts` with your Google Sheet ID
+3. Update the `SPREADSHEET_ID` in `src/services/googleSheetService.ts` with your Google Sheet ID
    - This is the ID from your Google Sheets URL: `https://docs.google.com/spreadsheets/d/YOUR_SPREADSHEET_ID/edit`
 
-3. Update the `RANGE` in `src/services/googleSheetService.ts` if your sheet name is different from "Sheet1"
-   - Format: `SheetName!A1:G`
+4. The application is configured to use a simplified range format to avoid sheet name issues. If you need to specify a sheet name, update the `RANGE` in `src/services/googleSheetService.ts`.
 
 ## Running the Application
 
@@ -55,3 +61,10 @@ If you encounter issues:
 2. Verify that your credentials file is correctly placed
 3. Ensure your service account has access to the Google Sheet
 4. Confirm that your Google Sheet has the expected column structure
+5. Check the server logs for detailed API error messages
+
+## Security Notes
+
+- Never commit your Google API credentials to version control
+- The credentials file is already added to `.gitignore` for your protection
+- For production deployment, consider using environment variables or a secure secrets manager
